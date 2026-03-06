@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-const alumnoRouter = require('./routes/alumnoRouter');
+const routerApi = require('./routes/rutas');
 
 const PORT = 3000;
 
@@ -20,8 +20,8 @@ app.get('/', (req, res) => {
     res.send('Servidor funcionando 🚀');
 });
 
-// Rutas de alumnos
-app.use('/alumnos', alumnoRouter);
+// Usar todas las rutas configuradas
+routerApi(app);
 
 app.listen(PORT, () => {
     console.log(`Servidor corriendo en http://localhost:${PORT}`);

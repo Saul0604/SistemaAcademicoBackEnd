@@ -3,7 +3,7 @@ class alumnoService {
         this.alumnos = [];
     }
 
-    create(nombre, matricula) {
+    async create(nombre, matricula) {
         const newAlumno = {
             id: this.alumnos.length > 0 ? Math.max(...this.alumnos.map(a => a.id)) + 1 : 1,
             nombre: nombre,
@@ -13,11 +13,11 @@ class alumnoService {
         return newAlumno;
     }
 
-    getAll() {
+    async getAll() {
         return this.alumnos;
     }
 
-    update(id, nombre, matricula) {
+    async update(id, nombre, matricula) {
         const index = this.alumnos.findIndex(item => item.id == id);
         if (index === -1) {
             throw new Error('ID No encontrado');
@@ -32,7 +32,7 @@ class alumnoService {
         return this.alumnos[index];
     }
 
-    delete(id) {
+    async delete(id) {
         const index = this.alumnos.findIndex(item => item.id == id);
         if (index === -1) {
             throw new Error('ID No encontrado');
