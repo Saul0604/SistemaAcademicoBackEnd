@@ -1,40 +1,45 @@
-class alumnoService{
-    constructor(){
-        this.alumnos=[];
+class alumnoService {
+    constructor() {
+        this.alumnos = [];
     }
-    async create(nombre, matricula){
+
+    create(nombre, matricula) {
         const newAlumno = {
-            id: this.alumnos.length+1,
+            id: this.alumnos.length > 0 ? Math.max(...this.alumnos.map(a => a.id)) + 1 : 1,
             nombre: nombre,
             matricula: matricula
-        }
-    }
-    async getAll(){
-        return new Promise((resolve, reject)=>{
-        setTimeout(()=>{
-        resolve(this.alumnos);
-      }, 10000)
-        })
-    }
-    async Update(id,nombre, matricula){
-        const index = this.alumnos.findIndex(item => item.id == id);
-        if (index == -1){
-      throw Error('Id Not Found');
-        }
-        const alumnoModificado = this.alumnos[index];
-        this.alumnos[index] = {
-        ...nombre,
-        ...matricula
         };
-    return this.alumnos[index]
+        this.alumnos.push(newAlumno);
+        return newAlumno;
     }
-    async delete(id){
+
+    getAll() {
+        return this.alumnos;
+    }
+
+    update(id, nombre, matricula) {
         const index = this.alumnos.findIndex(item => item.id == id);
-        if (index == -1){
-            throw Error('Product Not Found');
+        if (index === -1) {
+            throw new Error('ID No encontrado');
         }
-        this.products.splice(index, 1);
-            return id
+        
+        this.alumnos[index] = {
+            id: this.alumnos[index].id,
+            nombre: nombre || this.alumnos[index].nombre,
+            matricula: matricula || this.alumnos[index].matricula
+        };
+        
+        return this.alumnos[index];
+    }
+
+    delete(id) {
+        const index = this.alumnos.findIndex(item => item.id == id);
+        if (index === -1) {
+            throw new Error('ID No encontrado');
+        }
+        const deletedAlumno = this.alumnos[index];
+        this.alumnos.splice(index, 1);
+        return deletedAlumno;
     }
 }
 

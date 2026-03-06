@@ -1,42 +1,62 @@
 const express = require("express");
-
 const alumnoService = require('../services/alumnoService');
-const alumnoService = require("../services/alumnoService");
-const alumnoService = new alumnoService();
 
-const router = express.router;
+const router = express.Router();
+const service = new alumnoService();
 
-router.get('/', (req,res)=>{
-    const alumnos = alumnoService.getAll();
-    res.json(brands)
+router.get('/', (req, res) => {
+    try {
+        const alumnos = service.getAll();
+        res.json(alumnos);
+    } catch (error) {
+        res.status(500).json({ message: "Error al obtener alumnos", error: error.message });
+    }
 });
 
-router.post('/', (req,res)=>{
-    var nombre, matricula = req.body;
-    const newAlumno = alumnoService.create(nombre, matricula);
-    res.status(201).json({
-        message: "Alumno creado",
-        data: newAlumno
-  });
+router.post('/', (req, res) => {
+    try {
+        const { nombre, matricula } = req.body;
+        
+        if (!nombre || !matricula) {
+            return res.status(400).json({ message: "Nombre y matrícula son requeridos" });
+        }
+        
+        const newAlumno = service.create(nombre, matricula);
+        res.status(201).json({
+            message: "Alumno creado",
+            data: newAlumno
+        });
+    } catch (error) {
+        res.status(500).json({ message: "Error al crear alumno", error: error.message });
+    }
 });
 
-router.patch('/:id', (req,res)=>{
-    const {id} = req.params;
-    var nombre, matricula = req.body;
-    const alumnoUpdated = alumnoService.update(id,nombre, matricula);
-    res.status(201).json({
-        message: "Updated",
-        data: alumnoUpdated
-    });
+router.patch('/:id', (req, res) => {
+    try {
+        const { id } = req.params;
+        const { nombre, matricula } = req.body;
+        
+        const alumnoUpdated = service.update(id, nombre, matricula);
+        res.status(200).json({
+            message: "Alumno actualizado",
+            data: alumnoUpdated
+        });
+    } catch (error) {
+        res.status(500).json({ message: "Error al actualizar alumno", error: error.message });
+    }
 });
 
-router.delete('/:id', (req,res)=>{
-    const { id } = req.params;
-    const deletedAlumno = alumnoService.delete(id);
-    res.json({
-        message: "Alumno deleted",
-        deletedAlumno
-  });
+router.delete('/:id', (req, res) => {
+    try {
+        const { id } = req.params;
+        const deletedAlumno = service.delete(id);
+        res.json({
+            message: "Alumno eliminado",
+            data: deletedAlumno
+        });
+    } catch (error) {
+        res.status(500).json({ message: "Error al eliminar alumno", error: error.message });
+    }
 });
 
 module.exports = router;
