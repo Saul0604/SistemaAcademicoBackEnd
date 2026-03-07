@@ -4,8 +4,8 @@
   "description": "**Sistema Académico Simple** es una aplicación web diseñada para la administración básica de una escuela. El sistema permite:",
   "main": "prueba.js",
   "scripts": {
-    "start": "node index.js",
-    "dev": "nodemon index.js"
+  "start": "node index.js",
+  "dev": "nodemon index.js"
   },
   "repository": {
     "type": "git",
@@ -19,8 +19,7 @@
   },
   "homepage": "https://github.com/Saul0604/SistemaAcademicoBackEnd#readme",
   "dependencies": {
-    "express": "^5.2.1",
-    "mongoose": "^9.2.4"
+    "express": "^5.2.1"
   },
   "devDependencies": {
     "nodemon": "^3.1.14"

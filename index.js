@@ -1,12 +1,8 @@
-require("dotenv").config();
 const express = require('express');
 const app = express();
 const routerApi = require('./routes/rutas');
-const connectDB = require("./config/db");
 
-
-const PORT = process.env.PORT || 3000;
-connectDB();
+const PORT = 3000;
 
 // Middleware
 app.use(express.json());
