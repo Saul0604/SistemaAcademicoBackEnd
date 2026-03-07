@@ -1,46 +1,31 @@
+const Alumno = require("../models/alumno"); // ajusta la ruta si es necesario
+
 class alumnoService {
-    constructor() {
-        this.alumnos = [];
-    }
+  async create(nombre, matricula) {
+    const alumno = await Alumno.create({ nombre, matricula });
+    return alumno.toJSON();
+  }
 
-    async create(nombre, matricula) {
-        const newAlumno = {
-            id: this.alumnos.length > 0 ? Math.max(...this.alumnos.map(a => a.id)) + 1 : 1,
-            nombre: nombre,
-            matricula: matricula
-        };
-        this.alumnos.push(newAlumno);
-        return newAlumno;
-    }
+  async getAll() {
+    const alumnos = await Alumno.find();
+    return alumnos.map(a => a.toJSON());
+  }
 
-    async getAll() {
-        return this.alumnos;
-    }
+  async update(id, nombre, matricula) {
+    const updated = await Alumno.findByIdAndUpdate(
+      id,
+      { nombre, matricula },
+      { new: true, runValidators: true }
+    );
+    if (!updated) throw new Error("ID No encontrado");
+    return updated.toJSON();
+  }
 
-    async update(id, nombre, matricula) {
-        const index = this.alumnos.findIndex(item => item.id == id);
-        if (index === -1) {
-            throw new Error('ID No encontrado');
-        }
-        
-        this.alumnos[index] = {
-            id: this.alumnos[index].id,
-            nombre: nombre || this.alumnos[index].nombre,
-            matricula: matricula || this.alumnos[index].matricula
-        };
-        
-        return this.alumnos[index];
-    }
-
-    async delete(id) {
-        const index = this.alumnos.findIndex(item => item.id == id);
-        if (index === -1) {
-            throw new Error('ID No encontrado');
-        }
-        const deletedAlumno = this.alumnos[index];
-        this.alumnos.splice(index, 1);
-        return deletedAlumno;
-    }
+  async delete(id) {
+    const deleted = await Alumno.findByIdAndDelete(id);
+    if (!deleted) throw new Error("ID No encontrado");
+    return deleted.toJSON();
+  }
 }
 
 module.exports = alumnoService;
