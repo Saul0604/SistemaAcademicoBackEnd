@@ -22,7 +22,7 @@ class materiaService {
   }
 
   async delete(id){
-    const deleted = await Materia.findByIdAndUpdate(id);
+    const deleted = await Materia.findByIdAndDelete(id);
     if (!deleted) throw new Error("Id no encontrado");
     return deleted.toJSON();
   }
